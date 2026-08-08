@@ -199,6 +199,10 @@ nav {
    HAKKIMDA
 =========================== */
 
+#about {
+    position: relative;
+}
+
 .about-block {
     max-width: 45%;
     margin-bottom: 60px;
@@ -238,3 +242,63 @@ nav {
         background-color: #8B597B;
         color: #FFEEDB;
     }
+
+/* ===========================
+   TİLKİ ANİMASYONU
+=========================== */
+
+#fox {
+    position: absolute;
+    left: 3%;
+    top: 0;
+    width: 400px; /* senin ayarladığın boyut */
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0;
+    transition: top 0.8s ease, left 0.8s ease, opacity 0.4s ease;
+}
+
+    #fox.visible {
+        opacity: 1;
+    }
+
+    #fox.hop {
+        animation: foxHop 0.8s ease;
+    }
+
+    #fox img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+        #fox img.flip {
+            transform: scaleX(-1);
+        }
+
+@keyframes foxHop {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-70px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #fox {
+        transition: opacity 0.4s ease;
+    }
+
+        #fox.hop {
+            animation: none;
+        }
+}
