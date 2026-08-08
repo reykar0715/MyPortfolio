@@ -155,3 +155,84 @@
         }
     });
 })();
+
+/* ===========================
+   PROJE CAROUSEL (TRANSFORM TABANLI)
+=========================== */
+
+(function () {
+    const track = document.querySelector(".carousel-track");
+    const prev = document.querySelector(".carousel-btn.prev");
+    const next = document.querySelector(".carousel-btn.next");
+    if (!track) return;
+
+    // Kartları 3 katına çıkar (sonsuz döngü için)
+    const originals = [...track.children];
+    for (let n = 0; n < 2; n++) {
+        originals.forEach(c => track.appendChild(c.cloneNode(true)));
+    }
+
+    let setWidth = 0;
+    let offset = 0;
+    const step = 324;   // kart (300) + boşluk (24)
+
+    function apply(smooth) {
+        track.style.transition = smooth ? "transform 0.45s ease" : "none";
+        track.style.transform = "translateX(" + offset + "px)";
+    }
+
+    // Ortadaki set aralığına görünmez şekilde geri sar
+    function normalize() {
+        let changed = false;
+        while (offset <= -setWidth * 2) { offset += setWidth; changed = true; }
+        while (offset >= 0) { offset -= setWidth; changed = true; }
+        if (changed) apply(false);
+    }
+
+    function measure() {
+        setWidth = track.scrollWidth / 3;
+        offset = -setWidth;    // ortadaki setten başla
+        apply(false);
+    }
+    window.addEventListener("load", measure);
+    if (document.readyState === "complete") measure();
+
+    // Oklar (yumuşak)
+    if (next) next.addEventListener("click", () => { offset -= step; apply(true); });
+    if (prev) prev.addEventListener("click", () => { offset += step; apply(true); });
+    track.addEventListener("transitionend", normalize);
+
+    // Fare tekerleği (anlık)
+    track.addEventListener("wheel", (e) => {
+        if (e.deltaY === 0) return;
+        e.preventDefault();
+        offset -= e.deltaY;
+        apply(false);
+        normalize();
+    }, { passive: false });
+
+    // Sürükleme (anlık)
+    let isDown = false, startX, startOffset;
+    track.addEventListener("pointerdown", (e) => {
+        isDown = true;
+        track.classList.add("dragging");
+        startX = e.clientX;
+        startOffset = offset;
+        track.setPointerCapture(e.pointerId);
+    });
+    track.addEventListener("pointermove", (e) => {
+        if (!isDown) return;
+        offset = startOffset + (e.clientX - startX);
+        apply(false);
+    });
+    function endDrag() {
+        if (!isDown) return;
+        isDown = false;
+        track.classList.remove("dragging");
+        normalize();
+    }
+    track.addEventListener("pointerup", endDrag);
+    track.addEventListener("pointercancel", endDrag);
+
+    window.addEventListener("resize", measure);
+})();

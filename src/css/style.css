@@ -302,3 +302,91 @@ nav {
             animation: none;
         }
 }
+
+/* ===========================
+   PROJE CAROUSEL
+=========================== */
+
+.projects-carousel {
+    position: relative;
+}
+
+.carousel-viewport {
+    overflow: hidden; /* pencere: taşan kartları gizler */
+}
+
+.carousel-track {
+    display: flex;
+    gap: 24px;
+    padding: 20px 5px;
+    cursor: grab;
+    will-change: transform;
+}
+
+    .carousel-track.dragging {
+        cursor: grabbing;
+    }
+
+.project-card {
+    flex: 0 0 300px;
+    text-align: center;
+    color: #493129;
+    transition: transform 0.3s ease;
+}
+
+    .project-card:hover {
+        transform: translateY(-6px);
+    }
+
+    .project-card img {
+        width: 300px;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 20px;
+        box-shadow: 0 6px 20px rgba(73, 49, 41, 0.15);
+        pointer-events: none;
+    }
+
+    .project-card span {
+        display: block;
+        margin-top: 14px;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+/* ===========================
+   CAROUSEL OKLARI
+=========================== */
+
+.carousel-btn {
+    position: absolute;
+    top: 160px;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background-color: #8B597B;
+    color: #FFEEDB;
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(73, 49, 41, 0.25);
+    transition: background-color 0.3s ease;
+}
+
+    .carousel-btn:hover {
+        background-color: #493129;
+    }
+
+    .carousel-btn.prev {
+        left: 10px;
+    }
+
+    .carousel-btn.next {
+        right: 10px;
+    }
