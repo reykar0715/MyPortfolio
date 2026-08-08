@@ -6,7 +6,10 @@
     const fox = document.getElementById("fox");
     const foxImg = document.getElementById("fox-img");
     const blocks = document.querySelectorAll(".about-block");
-    if (!fox || !foxImg || !blocks.length) return;
+    const aboutSec = document.getElementById("about");
+    const heroSec = document.getElementById("hero");
+    const profile = document.querySelector(".profile-frame");
+    if (!fox || !foxImg || !blocks.length || !aboutSec) return;
 
     const FOX_H = 220;   // CSS'teki #fox height ile AYNI olmalı
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -39,15 +42,23 @@
         return { foxSide, facing, rest: sonBlok ? "lie" : "sit" };
     }
 
-    // Yatay konum (bloğun karşı tarafı)
     function placeX(side) {
         return side === "left" ? "3%" : "calc(97% - " + fox.offsetWidth + "px)";
     }
 
-    // Dikey konum (o bloğun tam hizası)
     function placeY(i) {
         const b = blocks[i];
         return (b.offsetTop + b.offsetHeight / 2 - FOX_H / 2) + "px";
+    }
+
+    // Profil fotoğrafının altındaki başlangıç konumu (about'a göre)
+    function homePos() {
+        const pr = profile.getBoundingClientRect();
+        const ar = aboutSec.getBoundingClientRect();
+        return {
+            top: (pr.bottom - ar.top),                                  // fotoğrafın 20px altı
+            left: (pr.left + pr.width / 2 - ar.left) - fox.offsetWidth / 2   // fotoğrafın altında ortalı
+        };
     }
 
     function setRest(st) {
@@ -55,27 +66,13 @@
         foxImg.src = (st.rest === "lie") ? F.lieLeft : F.sitLeft;
     }
 
-    let current = -1;
-
-    function goTo(i) {
-        const st = stateFor(i);
-
-        // Hedef konumu ayarla -> CSS top/left kavisin taban hareketini yapar
-        fox.style.left = placeX(st.foxSide);
-        fox.style.top = placeY(i);
-
-        if (reduce) { setRest(st); return; }
-
-        // Gittiği tarafa göre zıplama karesi
-        const frames = (st.foxSide === "right") ? F.jumpRight : F.jumpLeft;
+    function playFrames(frames, done) {
+        if (reduce) { done(); return; }
         foxImg.classList.remove("flip");
         foxImg.src = frames[0];
-
-        // Hop animasyonunu sıfırdan başlat (yukarı sıçrama kavisi)
         fox.classList.remove("hop");
-        void fox.offsetWidth;   // reflow: animasyon yeniden tetiklensin
+        void fox.offsetWidth;          // reflow: hop animasyonu yeniden tetiklensin
         fox.classList.add("hop");
-
         let k = 0;
         const iv = setInterval(() => {
             k++;
@@ -84,9 +81,41 @@
             } else {
                 clearInterval(iv);
                 fox.classList.remove("hop");
-                setRest(st);
+                done();
             }
         }, 200);
+    }
+
+    let current = -1;   // -1 = profil altında (hero başlangıcı)
+
+    function goTo(i) {
+        const st = stateFor(i);
+        fox.style.left = placeX(st.foxSide);
+        fox.style.top = placeY(i);
+        const frames = (st.foxSide === "right") ? F.jumpRight : F.jumpLeft;
+        playFrames(frames, () => setRest(st));
+    }
+
+    function goHome() {
+        if (!profile) return;
+        const h = homePos();
+        fox.style.left = h.left + "px";
+        fox.style.top = h.top + "px";
+        // yukarı-sağa gidiyor (profil sağda) → sağ zıplama
+        playFrames(F.jumpRight, () => {
+            foxImg.src = F.lieLeft;
+            foxImg.classList.remove("flip");
+        });
+    }
+
+    // Başlangıç: profil fotoğrafının altında yat
+    if (profile) {
+        const h = homePos();
+        fox.style.left = h.left + "px";
+        fox.style.top = h.top + "px";
+        foxImg.src = F.lieLeft;
+        foxImg.classList.remove("flip");
+        fox.classList.add("visible");
     }
 
     const io = new IntersectionObserver((entries) => {
@@ -94,28 +123,35 @@
             if (!e.isIntersecting) return;
             const i = [...blocks].indexOf(e.target);
             if (i === current) return;
-
             fox.classList.add("visible");
-
-            if (current === -1) {
-                const st = stateFor(i);
-                fox.style.left = placeX(st.foxSide);
-                fox.style.top = placeY(i);
-                setRest(st);
-            } else {
-                goTo(i);
-            }
+            goTo(i);
             current = i;
         });
     }, { threshold: 0.5, rootMargin: "-25% 0px -25% 0px" });
 
     blocks.forEach(b => io.observe(b));
 
-    // Pencere boyutu değişince konumu güncelle
+    // Hero'ya geri dönünce profil altına dön
+    if (heroSec) {
+        const ioHero = new IntersectionObserver(([e]) => {
+            if (e.isIntersecting && current !== -1) {
+                current = -1;
+                goHome();
+            }
+        }, { threshold: 0.6 });
+        ioHero.observe(heroSec);
+    }
+
     window.addEventListener("resize", () => {
-        if (current < 0) return;
-        const st = stateFor(current);
-        fox.style.left = placeX(st.foxSide);
-        fox.style.top = placeY(current);
+        if (current === -1) {
+            if (!profile) return;
+            const h = homePos();
+            fox.style.left = h.left + "px";
+            fox.style.top = h.top + "px";
+        } else {
+            const st = stateFor(current);
+            fox.style.left = placeX(st.foxSide);
+            fox.style.top = placeY(current);
+        }
     });
 })();
