@@ -14,6 +14,7 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 90px;
 }
 
 body {
@@ -103,6 +104,8 @@ nav {
     display: flex;
     align-items: center;
     background-color: #FFDEC7;
+    position: relative;
+    overflow: hidden;
 }
 
 .hero-content {
@@ -110,6 +113,8 @@ nav {
     justify-content: space-between;
     align-items: center;
     gap: 80px;
+    position: relative;
+    z-index: 1;
 }
 
 .greeting {
@@ -257,7 +262,7 @@ nav {
     align-items: center;
     justify-content: center;
     z-index: 5;
-    pointer-events: none;
+    /*pointer-events: none;*/
     opacity: 0;
     transition: top 0.8s ease, left 0.8s ease, opacity 0.4s ease;
 }
@@ -331,6 +336,7 @@ nav {
     flex: 0 0 300px;
     text-align: center;
     color: #493129;
+    cursor: pointer;
     transition: transform 0.3s ease;
 }
 
@@ -390,3 +396,98 @@ nav {
     .carousel-btn.next {
         right: 10px;
     }
+
+/* ===========================
+   SCROLL-REVEAL
+=========================== */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+    .reveal.in-view {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ===========================
+   HERO ARKA PLAN BLOB'LARI
+=========================== */
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px); /* bulanıklık = yumuşak bulut efekti */
+    opacity: 0.45;
+    will-change: transform;
+}
+
+.blob-1 {
+    width: 480px;
+    height: 480px;
+    background: #8B597B; /* mor */
+    top: -120px;
+    right: -80px;
+    animation: blobFloat1 16s ease-in-out infinite;
+}
+
+.blob-2 {
+    width: 400px;
+    height: 400px;
+    background: #EFA3A0; /* somon */
+    bottom: -120px;
+    left: -80px;
+    animation: blobFloat2 18s ease-in-out infinite;
+}
+
+.blob-3 {
+    width: 300px;
+    height: 300px;
+    background: #C63E4E; /* berry */
+    top: 40%;
+    left: 45%;
+    opacity: 0.25;
+    animation: blobFloat1 20s ease-in-out infinite reverse;
+}
+
+@keyframes blobFloat1 {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(-40px, 40px) scale(1.08);
+    }
+}
+
+@keyframes blobFloat2 {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(30px, -30px) scale(1.1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .blob {
+        animation: none;
+    }
+}

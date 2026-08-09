@@ -56,7 +56,7 @@
         const pr = profile.getBoundingClientRect();
         const ar = aboutSec.getBoundingClientRect();
         return {
-            top: (pr.bottom - ar.top),                                  // fotoğrafın 20px altı
+            top: (pr.bottom - ar.top) - 25,                                  // fotoğrafın 20px altı
             left: (pr.left + pr.width / 2 - ar.left) - fox.offsetWidth / 2   // fotoğrafın altında ortalı
         };
     }
@@ -211,20 +211,26 @@
         normalize();
     }, { passive: false });
 
-    // Sürükleme (anlık)
-    let isDown = false, startX, startOffset;
+    // Sürükleme (anlık) + tıklama ayrımı için "moved" ölçümü
+    let isDown = false, startX, startOffset, moved = 0;
+
     track.addEventListener("pointerdown", (e) => {
         isDown = true;
+        moved = 0;
         track.classList.add("dragging");
         startX = e.clientX;
         startOffset = offset;
         track.setPointerCapture(e.pointerId);
     });
+
     track.addEventListener("pointermove", (e) => {
         if (!isDown) return;
-        offset = startOffset + (e.clientX - startX);
+        const dx = e.clientX - startX;
+        moved = Math.abs(dx);
+        offset = startOffset + dx;
         apply(false);
     });
+
     function endDrag() {
         if (!isDown) return;
         isDown = false;
@@ -234,5 +240,49 @@
     track.addEventListener("pointerup", endDrag);
     track.addEventListener("pointercancel", endDrag);
 
-    window.addEventListener("resize", measure);
+    // Tıklama vs sürükleme: 5px'ten fazla sürüklendiyse linki iptal et
+    track.addEventListener("click", (e) => {
+        if (moved > 5) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    }, true);
+})();
+
+/* ===========================
+   SCROLL-REVEAL (OTOMATİK)
+=========================== */
+
+(function () {
+    // Bu bölümlerin içindeki ana öğeler otomatik "reveal" alsın
+    const scopes = document.querySelectorAll("#about, #skills, #projects, #contact");
+
+    scopes.forEach(scope => {
+        // Başlık + doğrudan alt öğeler
+        scope.querySelectorAll("h2, h3, p, .about-block, .skill-card, .project-card, .about-link")
+            .forEach(el => el.classList.add("reveal"));
+    });
+
+    const revealEls = document.querySelectorAll(".reveal");
+    if (!revealEls.length) return;
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+        revealEls.forEach(el => el.classList.add("in-view"));
+        return;
+    }
+
+    const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add("in-view");
+                obs.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    revealEls.forEach((el, i) => {
+        el.style.transitionDelay = (Math.min(i % 4, 3) * 90) + "ms";
+        obs.observe(el);
+    });
 })();

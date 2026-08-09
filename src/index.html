@@ -14,20 +14,26 @@
     <header>
         <nav>
             <div class="logo">
-                <a href="index.html">Reyyan Karadeniz</a>
+                <a href="#hero">Reyyan Karadeniz</a>
             </div>
 
             <ul class="nav-links">
-                <li><a href="index.html#about">Hakkımda</a></li>
-                <li><a href="skills.html">Yetenekler</a></li>
-                <li><a href="projects.html">Projeler</a></li>
-                <li><a href="contact.html">İletişim</a></li>
+                <li><a href="#about">Hakkımda</a></li>
+                <li><a href="#skills">Yetenekler</a></li>
+                <li><a href="#projects">Projeler</a></li>
+                <li><a href="#contact">İletişim</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
         <section id="hero">
+
+            <div class="hero-bg" aria-hidden="true">
+                <span class="blob blob-1"></span>
+                <span class="blob blob-2"></span>
+                <span class="blob blob-3"></span>
+            </div>
 
             <div class="hero-content">
 
@@ -44,7 +50,7 @@
                     </p>
 
                     <div class="hero-buttons">
-                        <a href="projects.html">Projelerim</a>
+                        <a href="#projects">Projelerim</a>
                         <a href="assets/CV.pdf" target="_blank">CV İndir</a>
                     </div>
 
@@ -92,7 +98,7 @@
                     Şu an bunu okuyarak zaten baya vakit kaybettiniz ama sizin tercihiniz yani uyarıları dinlemeniz lazım. İyi insanla kötüyü ayırmanız lazım. Kimden tavsiye aldığınıza dikkat edin ben okumayın derken sizin için demiştim ama siz okumayı tercih ettiniz. Nyese sağlık olsun.
                     Lütfen yazım yanlışı yaptıysam bunu umursamayın... İyi günler dilerim.
                 </p>
-                <a href="contact.html" class="about-link">İş birliği için iletişime geç →</a>
+                <a href="#contact" class="about-link">İş birliği için iletişime geç →</a>
             </div>
 
             <div class="about-block right">
@@ -119,6 +125,105 @@
 
         </section>
 
+        <section id="projects">
+
+            <h2>Projeler</h2>
+
+            <div class="projects-carousel">
+
+                <button class="carousel-btn prev" aria-label="Önceki">‹</button>
+
+                <div class="carousel-viewport">
+                    <div class="carousel-track">
+                        <a href="https://github.com/reykar0715/Event-Management-Platform" target="_blank" class="project-card">
+                            <img src="images\projects\eventmanagementfoto.jpe" alt="Proje 1">
+                            <span>Proje 1</span>
+                        </a>
+
+                        <a href="https://github.com/reykar0715/Market-Sales" target="_blank" class="project-card">
+                            <img src="images\projects\marketsalesfoto.jpe" alt="Proje 2">
+                            <span>Proje 2</span>
+                        </a>
+
+                        <a href="https://github.com/reykar0715/Graf-Analiz" target="_blank" class="project-card">
+                            <img src="images\projects\grafanalizfoto.jpe" alt="Proje 3">
+                            <span>Proje 3</span>
+                        </a>
+
+                        <a href="https://github.com/reykar0715/no-sql-To-sql" target="_blank" class="project-card">
+                            <img src="images\projects\nosqlTOsqlfotto.jpe" alt="Proje 4">
+                            <span>Proje 4</span>
+                        </a>
+
+                        <a href="https://github.com/reykar0715/Oral-Health-Tracker" target="_blank" class="project-card">
+                            <img src="images\projects\oralhealthtracker.jpe" alt="Proje 5">
+                            <span>Proje 5</span>
+                        </a>
+
+                        <a href="https://github.com/reykar0715/StoryTeller" target="_blank" class="project-card">
+                            <img src="images\projects\storytellerfoto.jpe" alt="Proje 6">
+                            <span>Proje 6</span>
+                        </a>
+
+                        <a href="https://github.com/reykar0715/Email-Marketting-Application" target="_blank" class="project-card">
+                            <img src="images\projects\emailmarkettingapplicationfoto.jpe" alt="Proje 7">
+                            <span>Proje 7</span>
+                        </a>
+
+                        <a href="https://github.com/reykar0715/WordToPdf" target="_blank" class="project-card">
+                            <img src="images\projects\wordtopdffotto.jpe" alt="Proje 8">
+                            <span>Proje 8</span>
+                        </a>
+
+                        <a href="https://github.com/reykar0715/Console-Notepad" target="_blank" class="project-card">
+                            <img src="images\projects\consolenotepadfoto.jpe" alt="Proje 9">
+                            <span>Proje 9</span>
+                        </a>
+
+                        <a href="https://github.com/reykar0715/Lidar-Sensor-Graph-Analysis" target="_blank" class="project-card">
+                            <img src="images\projects\lidarsensorgraphanaliz.jpe" alt="Proje 10">
+                            <span>Proje 10</span>
+                        </a>
+                    </div>
+                </div>
+
+                <button class="carousel-btn next" aria-label="Sonraki">›</button>
+
+            </div>
+
+        </section>
+
+        <section id="skills">
+            <h2>Yetenekler</h2>
+            <div class="skills-container">
+                <div class="skill-card"><h3>HTML</h3></div>
+                <div class="skill-card"><h3>CSS</h3></div>
+                <div class="skill-card"><h3>JavaScript</h3></div>
+                <div class="skill-card"><h3>C#</h3></div>
+                <div class="skill-card"><h3>.NET</h3></div>
+                <div class="skill-card"><h3>SQL</h3></div>
+                <div class="skill-card"><h3>Git & GitHub</h3></div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>İletişim</h2>
+            <p>Benimle iletişime geçmek için aşağıdaki bilgileri kullanabilirsiniz.</p>
+            <div class="contact-info">
+                <p>
+                    <strong>E-posta:</strong>
+                    <a href="mailto:mail@example.com">mail@example.com</a>
+                </p>
+                <p>
+                    <strong>GitHub:</strong>
+                    <a href="https://github.com/kullaniciadi" target="_blank">github.com/kullaniciadi</a>
+                </p>
+                <p>
+                    <strong>LinkedIn:</strong>
+                    <a href="https://linkedin.com/in/kullaniciadi" target="_blank">linkedin.com/in/kullaniciadi</a>
+                </p>
+            </div>
+        </section>
 
     </main>
 
