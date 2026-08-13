@@ -1,0 +1,21 @@
+# Gizli ortam değişkenleri
+.env
+.env.*
+!.env.example
+
+# Node.js
+node_modules/
+npm-debug.log*
+
+# Visual Studio
+.vs/
+
+# Derleme çıktıları
+dist/
+build/
+
+# Editör / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

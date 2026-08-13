@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-wrap {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .admin-box {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: 28px;
+            margin-bottom: 28px;
+            box-shadow: var(--shadow-sm);
+        }
+
+            .admin-box h2 {
+                text-align: left;
+                font-size: 1.4rem;
+                margin-bottom: 18px;
+            }
+
+        .admin-row {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+            .admin-row label {
+                font-weight: 600;
+                font-size: 0.9rem;
+                color: var(--color-text-soft);
+            }
+
+            .admin-row input, .admin-row textarea {
+                padding: 12px 14px;
+                border: 1px solid var(--color-border);
+                border-radius: var(--radius-sm);
+                background: var(--color-bg);
+                color: var(--color-text);
+                font-family: var(--font-body);
+                font-size: 0.95rem;
+            }
+
+        .admin-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--radius-sm);
+            background: var(--color-primary);
+            color: var(--color-on-primary);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+            .admin-btn:hover {
+                background: var(--color-accent-2);
+            }
+
+        .admin-btn-danger {
+            background: var(--color-accent-2);
+            padding: 8px 16px;
+            font-size: 0.85rem;
+        }
+
+        .msg-item, .proj-item {
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+            .msg-item strong {
+                font-family: var(--font-heading);
+            }
+
+        .msg-meta {
+            font-size: 0.82rem;
+            color: var(--color-text-soft);
+            margin-top: 4px;
+        }
+
+        .proj-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .admin-status {
+            margin-top: 12px;
+            font-size: 0.9rem;
+            min-height: 1.2em;
+        }
+
+            .admin-status.error {
+                color: var(--color-accent-2);
+            }
+
+            .admin-status.success {
+                color: #2f8f4e;
+            }
+    </style>
+</head>
+
+<body>
+
+    <div class="admin-wrap">
+
+        <!-- GİRİŞ EKRANI -->
+        <div id="loginBox" class="admin-box">
+            <h2>Admin Girişi</h2>
+            <div class="admin-row">
+                <label for="username">Kullanıcı Adı</label>
+                <input type="text" id="username">
+            </div>
+            <div class="admin-row">
+                <label for="password">Şifre</label>
+                <input type="password" id="password">
+            </div>
+            <button class="admin-btn" id="loginBtn">Giriş Yap</button>
+            <p class="admin-status" id="loginStatus"></p>
+        </div>
+
+        <!-- PANEL (giriş sonrası) -->
+        <div id="panel" class="hidden">
+
+            <div class="admin-box">
+                <button class="admin-btn admin-btn-danger" id="logoutBtn">Çıkış Yap</button>
+            </div>
+
+            <!-- PROJE EKLE -->
+            <div class="admin-box">
+                <h2>Yeni Proje Ekle</h2>
+                <div class="admin-row">
+                    <label for="p-title">Başlık</label>
+                    <input type="text" id="p-title">
+                </div>
+                <div class="admin-row">
+                    <label for="p-desc">Açıklama</label>
+                    <textarea id="p-desc" rows="2"></textarea>
+                </div>
+                <div class="admin-row">
+                    <label for="p-image">Görsel yolu (örn. images/projects/foto.jpe)</label>
+                    <input type="text" id="p-image">
+                </div>
+                <div class="admin-row">
+                    <label for="p-github">GitHub linki</label>
+                    <input type="text" id="p-github">
+                </div>
+                <button class="admin-btn" id="addProjectBtn">Ekle</button>
+                <p class="admin-status" id="projectStatus"></p>
+            </div>
+
+            <!-- PROJE LİSTESİ -->
+            <div class="admin-box">
+                <h2>Projeler</h2>
+                <div id="projectList"></div>
+            </div>
+
+            <!-- MESAJLAR -->
+            <div class="admin-box">
+                <h2>Gelen Mesajlar</h2>
+                <div id="messageList"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="js/reymin.js"></script>
+
+</body>
+
+</html>
