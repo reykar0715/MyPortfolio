@@ -1,6 +1,6 @@
 "use strict";
 
-const API = "http://localhost:3000";
+const API = "https://myportfolio-backend-v667.onrender.com";
 
 // Token'ı tarayıcı hafızasında tut (sayfa yenilense de kalsın)
 let token = localStorage.getItem("admin-token");

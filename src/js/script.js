@@ -233,7 +233,7 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
     const track = document.querySelector(".carousel-track");
     if (!track) return;
 
-    const API = "http://localhost:3000";   // Vercel'de değişecek
+    const API = "https://myportfolio-backend-v667.onrender.com";
 
     // Projeleri çek
     fetch(API + "/api/projects")
