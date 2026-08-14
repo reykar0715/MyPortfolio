@@ -389,7 +389,7 @@ function initCarousel() {
     const submitBtn = document.getElementById("contactSubmit");
     if (!form) return;
 
-    const API = "http://localhost:3000";   // ileride Vercel adresiyle değişecek
+    const API = "https://myportfolio-backend-v667.onrender.com";
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
